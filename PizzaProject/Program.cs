@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using PizzaProject.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<PizzaDbContext>(options => //options is from PizzaDbContext cotr construtor
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
