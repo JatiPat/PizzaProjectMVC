@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PizzaProject.Data;
+using PizzaProject.DataAccess.Data;
 using PizzaProject.Models;
 
 namespace PizzaProject.Controllers

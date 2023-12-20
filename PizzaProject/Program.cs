@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using PizzaProject.Data;
+using PizzaProject.DataAccess.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

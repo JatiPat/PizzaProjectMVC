@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PizzaProject.Models;
 
-namespace PizzaProject.Data
+namespace PizzaProject.DataAccess.Data
 {
     public class PizzaDbContext : DbContext
     {
