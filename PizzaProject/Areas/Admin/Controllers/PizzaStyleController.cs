@@ -1,19 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PizzaProject.DataAccess.Data;
+using PizzaProject.DataAccess.Repository.IRepository;
 using PizzaProject.Models;
 
-namespace PizzaProject.Controllers
+namespace PizzaProject.Areas.Admin.Controllers
 {
+    [Area("Admin")] // this controller belongs in the Admin Area
     public class PizzaStyleController : Controller
     {
-        private readonly PizzaDbContext _context; //underscore is added to readonly varabiles and partial views
-        public PizzaStyleController(PizzaDbContext context)
+        //private readonly PizzaDbContext _context; //underscore is added to readonly varabiles and partial views
+        private readonly IUnitOfWork _unitOfWork; //switched out DbContext with IPizzaStyleRepository
+
+        public PizzaStyleController(IUnitOfWork context)
         {
-            _context = context;
+            _unitOfWork = context;
         }
         public IActionResult Index()
         {
-            List<PizzaStyle> styleList = _context.PizzaStyles.ToList();
+            List<PizzaStyle> styleList = _unitOfWork.Style.GetAll().ToList();
             return View(styleList);
         }
 
@@ -21,11 +25,11 @@ namespace PizzaProject.Controllers
         {
             return View();
         }
-        
+
         [HttpPost] //Http post for create method
         public IActionResult Create(PizzaStyle newStyle)
         {
-            var dupCheck = _context.PizzaStyles.Find(newStyle.DisplayOrder);
+            var dupCheck = _unitOfWork.Style.Get(u => u.Id == newStyle.Id);
             if (dupCheck is not null) //stops users from adding same display order numbers
             { //this counts as server-side validation
                 ModelState.AddModelError("displayOrder", "No duplicates for display order");
@@ -33,8 +37,8 @@ namespace PizzaProject.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.PizzaStyles.Add(newStyle); //add new style and save it. Then redirect to index
-                _context.SaveChanges();
+                _unitOfWork.Style.Add(newStyle); //add new style and save it. Then redirect to index
+                _unitOfWork.Save();
                 TempData["passed"] = "Pizza Style Created!";
                 return RedirectToAction("Index", "PizzaStyle");
             }
@@ -51,7 +55,7 @@ namespace PizzaProject.Controllers
                 return NotFound();
             }
 
-            PizzaStyle? styleFromDb = _context.PizzaStyles.Find(id); //find can only look for the primary key
+            PizzaStyle? styleFromDb = _unitOfWork.Style.Get(u => u.Id == id); //find can only look for the primary key
             //Style? styleFromDb1 = _context.Styles.FirstOrDefault(u => u.Id == id); //firstordeafault using LINQ and can search for other varaibles 
             //Style? styleFromDb2 = _context.Styles.Where(u => u.Id == id).FirstOrDefault(); //Where is used for calculation 
             if (styleFromDb == null)
@@ -67,8 +71,8 @@ namespace PizzaProject.Controllers
         {
             if (editStyle is not null && ModelState.IsValid)
             {
-                _context.PizzaStyles.Update(editStyle); //only thing needed here is to update the object and save changes
-                _context.SaveChanges();
+                _unitOfWork.Style.Update(editStyle); //only thing needed here is to update the object and save changes
+                _unitOfWork.Save();
                 TempData["passed"] = "Pizza Style Edited!";
             }
 
@@ -83,7 +87,7 @@ namespace PizzaProject.Controllers
                 return NotFound();
             }
 
-            PizzaStyle? styleFromDb = _context.PizzaStyles.Find(id); //find can only look for the primary key
+            PizzaStyle? styleFromDb = _unitOfWork.Style.Get(u => u.Id == id); //find can only look for the primary key
             //Style? styleFromDb1 = _context.Styles.FirstOrDefault(u => u.Id == id); //firstordeafault using LINQ and can search for other varaibles 
             //Style? styleFromDb2 = _context.Styles.Where(u => u.Id == id).FirstOrDefault(); //Where is used for calculation 
             if (styleFromDb is null)
@@ -97,16 +101,16 @@ namespace PizzaProject.Controllers
         [HttpPost, ActionName("Delete")] //telling EF Core this is the delete method even if it's called DeletePOST
         public IActionResult DeletePOST(int? id)
         {
-            PizzaStyle? style = _context.PizzaStyles.Find(id);
+            PizzaStyle? style = _unitOfWork.Style.Get(u => u.Id == id);
             if (style is null)
             {
                 return BadRequest();
             }
-            _context.PizzaStyles.Remove(style); //removing object
-            _context.SaveChanges();
+            _unitOfWork.Style.Delete(style); //removing object
+            _unitOfWork.Save();
             TempData["passed"] = "Pizza Style Deleted!";
             return RedirectToAction("Index", "PizzaStyle");
         }
-    
+
     }
 }

@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using PizzaProject.Models;
 using System.Diagnostics;
 
-namespace PizzaProject.Controllers
+namespace PizzaProject.Areas.Customer.Controllers
 {
+    [Area("Customer")] // this controller belongs in the Customer Area
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
