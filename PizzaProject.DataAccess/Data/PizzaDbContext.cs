@@ -11,6 +11,7 @@ namespace PizzaProject.DataAccess.Data
         }
 
         public DbSet<PizzaStyle> PizzaStyles {  get; set; }
+        public DbSet<Pizza> Pizzas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -18,6 +19,12 @@ namespace PizzaProject.DataAccess.Data
                 new PizzaStyle { Id = 1, Name = "New York", DisplayOrder = 1 },
                 new PizzaStyle { Id = 2, Name = "Chicago", DisplayOrder = 2 },
                 new PizzaStyle { Id = 3, Name = "Detroit", DisplayOrder = 3 }
+                );
+
+            modelBuilder.Entity<Pizza>().HasData(
+                new Pizza { Id = 1, Name = "Five Cheese Pizza", Description = " Mozzarella , Feta, Parmesan, Cheddar, and Ricotta", Price = 19.20},
+                new Pizza { Id = 2, Name = "Killer Veggie Pizza", Description = " Green Pepper, Black Olives, and Sun Dried Tomatoes", Price = 13.50 },
+                new Pizza { Id = 3, Name = "Ice Cream Pizza", Description = "Chocolate, Vanilla, or Strawberry", Price = 2.50 }
                 );
         }
     }
