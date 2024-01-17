@@ -13,10 +13,12 @@ namespace PizzaProject.DataAccess.Repository
 
         private PizzaDbContext _dbContext;
         public IPizzaStyleRepository Style { get; private set; }
+        public IPizzaRepository Pizza { get; private set; }
         public UnitOfWork(PizzaDbContext dbContext) 
         {
             _dbContext = dbContext;
             Style = new PizzaStyleRepository(_dbContext);
+            Pizza = new PizzaRepository(_dbContext);
         }
 
        

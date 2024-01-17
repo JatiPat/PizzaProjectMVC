@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PizzaProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace PizzaProject.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface IPizzaRepository : IRepository<Pizza>
     {
-        IPizzaStyleRepository Style { get; }
-        IPizzaRepository Pizza { get; }
-
-        void Save();
-
+        void Update(Pizza pizza);
+     
     }
 }
