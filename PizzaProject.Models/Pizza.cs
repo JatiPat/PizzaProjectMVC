@@ -28,6 +28,13 @@ namespace PizzaProject.Models
             [Range(0, 100)]
             public double Price { get; set; }
 
+            [Required]
+            [DisplayName("Pizza Style")]
+            public int PizzaStyleId { get; set; }
+            [ForeignKey("PizzaStyleId")]
+            public PizzaStyle PizzaStyle { get; set; }
+
+            public string ImageURL { get; set; }
     }
 
 

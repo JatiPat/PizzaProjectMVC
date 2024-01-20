@@ -1,0 +1,54 @@
+﻿@model Pizza
+
+<h1>Create a New Pizza Style</h1>
+<hr />
+<div class="row">
+    <form asp-action="Create">
+        <div asp-validation-summary="All" class="text-danger"></div> @*Summary can be All, ModelOnly, or None*@
+        <div class="form-group pb-2">
+            <label asp-for="Name" class="control-label"></label> @* tag helpers like asp-for tell EFcore what input is what what variable *@
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group pb-3">
+            <label asp-for="Description" class="control-label"></label>
+            <input type="text" asp-for="Description" class="form-control" />
+            @*   Added type=text to get rid of up/down arrows *@
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group pb-3">
+            <label asp-for="Price" class="control-label"></label>
+            <input type="text" asp-for="Price" class="form-control" />
+            @*   Added type=text to get rid of up/down arrows *@
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group pb-3">
+            <label asp-for="PizzaStyleId" class="control-label"></label>
+            <select asp-for="PizzaStyleId" asp-items="ViewBag.PizzaStyleList" class="form-select">
+                <option disabled selected>--Select Pizza Style--</option>
+            </select>
+            @*   Added type=text to get rid of up/down arrows *@
+            <span asp-validation-for="PizzaStyleId" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="form-group pb-2 col-6">
+                <input type="submit" value="Create" class="btn btn-primary form-control" />
+            </div>
+            <div class="col-6">
+                <a asp-controller="Pizza" asp-action="Index" class="btn btn-primary form-control">Back to Pizza Style List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @*Client side validation from jquery*@
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

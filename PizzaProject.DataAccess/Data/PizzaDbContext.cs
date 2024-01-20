@@ -22,9 +22,9 @@ namespace PizzaProject.DataAccess.Data
                 );
 
             modelBuilder.Entity<Pizza>().HasData(
-                new Pizza { Id = 1, Name = "Five Cheese Pizza", Description = " Mozzarella , Feta, Parmesan, Cheddar, and Ricotta", Price = 19.20},
-                new Pizza { Id = 2, Name = "Killer Veggie Pizza", Description = " Green Pepper, Black Olives, and Sun Dried Tomatoes", Price = 13.50 },
-                new Pizza { Id = 3, Name = "Ice Cream Pizza", Description = "Chocolate, Vanilla, or Strawberry", Price = 2.50 }
+                new Pizza { Id = 1, Name = "Five Cheese Pizza", Description = " Mozzarella , Feta, Parmesan, Cheddar, and Ricotta", Price = 19.20,PizzaStyleId = 1, ImageURL = "" },
+                new Pizza { Id = 2, Name = "Killer Veggie Pizza", Description = " Green Pepper, Black Olives, and Sun Dried Tomatoes", Price = 13.50, PizzaStyleId = 2, ImageURL = "" },
+                new Pizza { Id = 3, Name = "Ice Cream Pizza", Description = "Chocolate, Vanilla, or Strawberry", Price = 2.50, PizzaStyleId = 1, ImageURL = "" }
                 );
         }
     }

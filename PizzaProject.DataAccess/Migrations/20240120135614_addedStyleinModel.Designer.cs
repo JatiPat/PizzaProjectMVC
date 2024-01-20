@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaProject.DataAccess.Data;
 
@@ -10,9 +11,11 @@ using PizzaProject.DataAccess.Data;
 namespace PizzaProject.Migrations
 {
     [DbContext(typeof(PizzaDbContext))]
-    partial class PizzaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240120135614_addedStyleinModel")]
+    partial class addedStyleinModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,10 +33,6 @@ namespace PizzaProject.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageURL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -59,7 +58,6 @@ namespace PizzaProject.Migrations
                         {
                             Id = 1,
                             Description = " Mozzarella , Feta, Parmesan, Cheddar, and Ricotta",
-                            ImageURL = "",
                             Name = "Five Cheese Pizza",
                             PizzaStyleId = 1,
                             Price = 19.199999999999999
@@ -68,7 +66,6 @@ namespace PizzaProject.Migrations
                         {
                             Id = 2,
                             Description = " Green Pepper, Black Olives, and Sun Dried Tomatoes",
-                            ImageURL = "",
                             Name = "Killer Veggie Pizza",
                             PizzaStyleId = 2,
                             Price = 13.5
@@ -77,7 +74,6 @@ namespace PizzaProject.Migrations
                         {
                             Id = 3,
                             Description = "Chocolate, Vanilla, or Strawberry",
-                            ImageURL = "",
                             Name = "Ice Cream Pizza",
                             PizzaStyleId = 1,
                             Price = 2.5

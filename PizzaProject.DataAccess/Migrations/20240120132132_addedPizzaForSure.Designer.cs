@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaProject.DataAccess.Data;
 
@@ -10,9 +11,11 @@ using PizzaProject.DataAccess.Data;
 namespace PizzaProject.Migrations
 {
     [DbContext(typeof(PizzaDbContext))]
-    partial class PizzaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240120132132_addedPizzaForSure")]
+    partial class addedPizzaForSure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,24 +36,15 @@ namespace PizzaProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("PizzaStyleId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PizzaStyleId");
 
                     b.ToTable("Pizzas");
 
@@ -59,27 +53,21 @@ namespace PizzaProject.Migrations
                         {
                             Id = 1,
                             Description = " Mozzarella , Feta, Parmesan, Cheddar, and Ricotta",
-                            ImageURL = "",
                             Name = "Five Cheese Pizza",
-                            PizzaStyleId = 1,
                             Price = 19.199999999999999
                         },
                         new
                         {
                             Id = 2,
                             Description = " Green Pepper, Black Olives, and Sun Dried Tomatoes",
-                            ImageURL = "",
                             Name = "Killer Veggie Pizza",
-                            PizzaStyleId = 2,
                             Price = 13.5
                         },
                         new
                         {
                             Id = 3,
                             Description = "Chocolate, Vanilla, or Strawberry",
-                            ImageURL = "",
                             Name = "Ice Cream Pizza",
-                            PizzaStyleId = 1,
                             Price = 2.5
                         });
                 });
@@ -123,17 +111,6 @@ namespace PizzaProject.Migrations
                             DisplayOrder = 3,
                             Name = "Detroit"
                         });
-                });
-
-            modelBuilder.Entity("PizzaProject.Models.Pizza", b =>
-                {
-                    b.HasOne("PizzaProject.Models.PizzaStyle", "PizzaStyle")
-                        .WithMany()
-                        .HasForeignKey("PizzaStyleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PizzaStyle");
                 });
 #pragma warning restore 612, 618
         }
