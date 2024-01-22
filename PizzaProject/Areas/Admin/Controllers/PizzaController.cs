@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PizzaProject.DataAccess.Data;
 using PizzaProject.DataAccess.Repository.IRepository;
 using PizzaProject.Models;
+using PizzaProject.Models.ViewModels;
 
 namespace PizzaProject.Areas.Admin.Controllers
 {
@@ -25,36 +26,52 @@ namespace PizzaProject.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> PizzaStyleList = _unitOfWork.Style.GetAll().Select(
+            /*IEnumerable<SelectListItem> PizzaStyleList = _unitOfWork.Style.GetAll().Select(
                 u => new SelectListItem //Using EF Core Projections to access pizza style
                 {
                     Text = u.Name,
                     Value = u.Id.ToString(),
                 });
-            
+            */
             //Viewbag (wrapper of ViewData) send info from controller to view (and not the other way around)
-            ViewBag.PizzaStyleList = PizzaStyleList;
+            //ViewBag.PizzaStyleList = PizzaStyleList; //<-- ViewBag Set up
             //ViewData must have a type casted before use in create.cshtml
             //ViewData["PizzaStyleList"] = PizzaStyleList; //They also use the same dictionary, so ViewBag key must not match
             //Avoid using Viewbags and Datas because it will look really messy. Instead, tightly bind the view with the object that you want
             //Or a ViewModel that's a combintion 
-            return View();
+          PizzaVM pizzaVM = new()
+          {
+              PizzaStyleList = _unitOfWork.Style.GetAll().Select(
+                u => new SelectListItem //Using EF Core Projections to access pizza style
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString(),
+                }),
+            Pizza = new Pizza()
+          };  //Need to pass PizzaVM for it to work
+            return View(pizzaVM);
         }
 
         [HttpPost] //Http post for create method
-        public IActionResult Create(Pizza newPizza)
+        public IActionResult Create(PizzaVM newPizzaVM)
         {
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.Pizza.Add(newPizza); //add new style and save it. Then redirect to index
+                _unitOfWork.Pizza.Add(newPizzaVM.Pizza); //add new style and save it. Then redirect to index
                 _unitOfWork.Save();
                 TempData["passed"] = "Pizza Created!";
                 return RedirectToAction("Index", "Pizza");
             }
             else //invaild inputs
             {
-                return View();
+                newPizzaVM.PizzaStyleList = _unitOfWork.Style.GetAll().Select(
+                u => new SelectListItem //Using EF Core Projections to access pizza style
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString(),
+                });
+                return View(newPizzaVM);
             }
         }
 

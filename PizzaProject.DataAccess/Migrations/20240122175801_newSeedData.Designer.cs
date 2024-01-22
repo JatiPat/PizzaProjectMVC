@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaProject.DataAccess.Data;
 
@@ -10,9 +11,11 @@ using PizzaProject.DataAccess.Data;
 namespace PizzaProject.Migrations
 {
     [DbContext(typeof(PizzaDbContext))]
-    partial class PizzaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240122175801_newSeedData")]
+    partial class newSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,9 +55,8 @@ namespace PizzaProject.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<string>("Veggie")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Veggie")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -71,8 +73,8 @@ namespace PizzaProject.Migrations
                             Ingredients = "Mozzarella, Feta, Parmesan, Cheddar, Ricotta",
                             Name = "Five Cheese Pizza",
                             PizzaStyleId = 1,
-                            Price = 19.989999999999998,
-                            Veggie = "Yes"
+                            Price = 19.199999999999999,
+                            Veggie = true
                         },
                         new
                         {
@@ -82,8 +84,8 @@ namespace PizzaProject.Migrations
                             Ingredients = "Green Pepper, Black Olives, and Sun Dried Tomatoes",
                             Name = "Killer Veggie Pizza",
                             PizzaStyleId = 1,
-                            Price = 13.99,
-                            Veggie = "Yes"
+                            Price = 13.5,
+                            Veggie = true
                         },
                         new
                         {
@@ -93,8 +95,8 @@ namespace PizzaProject.Migrations
                             Ingredients = "Homemade Ice Cream with Chocolate, Vanilla, or Strawberry options",
                             Name = "Ice Cream Pizza",
                             PizzaStyleId = 4,
-                            Price = 2.9900000000000002,
-                            Veggie = "Yes"
+                            Price = 2.5,
+                            Veggie = true
                         },
                         new
                         {
@@ -105,7 +107,7 @@ namespace PizzaProject.Migrations
                             Name = "Classic Neapolitan",
                             PizzaStyleId = 4,
                             Price = 17.989999999999998,
-                            Veggie = "Yes"
+                            Veggie = true
                         },
                         new
                         {
@@ -116,7 +118,7 @@ namespace PizzaProject.Migrations
                             Name = "Classic Chicago",
                             PizzaStyleId = 2,
                             Price = 19.989999999999998,
-                            Veggie = "No"
+                            Veggie = false
                         },
                         new
                         {
@@ -127,7 +129,7 @@ namespace PizzaProject.Migrations
                             Name = "Classic New York",
                             PizzaStyleId = 1,
                             Price = 20.989999999999998,
-                            Veggie = "No"
+                            Veggie = false
                         },
                         new
                         {
@@ -137,8 +139,8 @@ namespace PizzaProject.Migrations
                             Ingredients = "Tomato Sauce, Mozzarella Cheese, Olives",
                             Name = "Classic Sicilian",
                             PizzaStyleId = 5,
-                            Price = 19.989999999999998,
-                            Veggie = "Yes"
+                            Price = 19.199999999999999,
+                            Veggie = true
                         },
                         new
                         {
@@ -149,7 +151,7 @@ namespace PizzaProject.Migrations
                             Name = "Classic Detroit Pizza",
                             PizzaStyleId = 3,
                             Price = 21.989999999999998,
-                            Veggie = "No"
+                            Veggie = false
                         });
                 });
 
