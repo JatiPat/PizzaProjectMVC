@@ -1,8 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using PizzaProject.DataAccess.Data;
+using PizzaProject.DataAccess.Repository;
+using PizzaProject.DataAccess.Repository.IRepository;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<PizzaDbContext>(options => //options is from PizzaDbContext cotr construtor
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();//Add this if you have services error
+// Unable to resolve service for type 'PizzaProject.DataAccess.Repository.IRepository.IPizzaStyleRepository' 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"); //Must have area when added
 
 app.Run();
