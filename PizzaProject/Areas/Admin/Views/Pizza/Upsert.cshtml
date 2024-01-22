@@ -1,9 +1,10 @@
 ﻿@model PizzaVM
 
-<h1>Create a New Pizza Style</h1>
+<h1> @(Model.Pizza.Id != 0 ? "Edit" : "Create") Pizza</h1>
 <hr />
 <div class="row">
-    <form asp-action="Create">
+    <form asp-action="Upsert" enctype="multipart/form-data">
+        <input asp-for="Pizza.Id" hidden /> @* hidden property if it's getting updated *@
         <div asp-validation-summary="All" class="text-danger"></div> @*Summary can be All, ModelOnly, or None*@
         <div class="form-group pb-2">
             <label asp-for="Pizza.Name" class="control-label"></label> @* tag helpers like asp-for tell EFcore what input is what what variable *@
@@ -56,13 +57,21 @@
 
         <div class="form-group pb-3">
             <label asp-for="Pizza.ImageURL" class="control-label"></label>
-            <input type="text" asp-for="Pizza.ImageURL" class="form-control" />
+            <input type="file" asp-for="Pizza.ImageURL" class="form-control" />
             @*   Added type=text to get rid of up/down arrows *@
-            <span asp-validation-for="Pizza.ImageURL" class="text-danger"></span>
+     
         </div>
         <div class="row">
             <div class="form-group pb-2 col-6">
-                <input type="submit" value="Create" class="btn btn-primary form-control" />
+                @if(Model.Pizza.Id != 0)
+                {
+                    <input type="submit" value="Edit" class="btn btn-primary form-control" />
+                }
+                else
+                {
+                    <input type="submit" value="Create" class="btn btn-primary form-control" />
+                }
+                
             </div>
             <div class="col-6">
                 <a asp-controller="Pizza" asp-action="Index" class="btn btn-primary form-control">Back to Pizza Style List</a>

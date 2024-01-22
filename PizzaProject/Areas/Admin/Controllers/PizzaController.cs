@@ -24,7 +24,7 @@ namespace PizzaProject.Areas.Admin.Controllers
             return View(pizzaList);
         }
 
-        public IActionResult Create()
+        public IActionResult Upsert(int? id) //Insert and Update
         {
             /*IEnumerable<SelectListItem> PizzaStyleList = _unitOfWork.Style.GetAll().Select(
                 u => new SelectListItem //Using EF Core Projections to access pizza style
@@ -49,11 +49,20 @@ namespace PizzaProject.Areas.Admin.Controllers
                 }),
             Pizza = new Pizza()
           };  //Need to pass PizzaVM for it to work
-            return View(pizzaVM);
+            if(id is null || id == 0)
+            {
+                return View(pizzaVM);
+            }
+            else
+            {
+                pizzaVM.Pizza = _unitOfWork.Pizza.Get(u => u.Id == id);
+                return View(pizzaVM);
+            }
+            
         }
 
         [HttpPost] //Http post for create method
-        public IActionResult Create(PizzaVM newPizzaVM)
+        public IActionResult Upsert(PizzaVM newPizzaVM, IFormFile? file)
         {
 
             if (ModelState.IsValid)
@@ -75,37 +84,7 @@ namespace PizzaProject.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Edit(int? id) //Can take in id of Style that's nullable
-        {
-            if (id is null || id == 0) //is null is better ==, and can also say //is not
-            {
-                return NotFound();
-            }
-
-            Pizza? pizzaFromDb = _unitOfWork.Pizza.Get(u => u.Id == id); //find can only look for the primary key
-            //Style? styleFromDb1 = _context.Styles.FirstOrDefault(u => u.Id == id); //firstordeafault using LINQ and can search for other varaibles 
-            //Style? styleFromDb2 = _context.Styles.Where(u => u.Id == id).FirstOrDefault(); //Where is used for calculation 
-            if (pizzaFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(pizzaFromDb);
-        }
-
-
-        [HttpPost]
-        public IActionResult Edit(Pizza editPizza)
-        {
-            if (editPizza is not null && ModelState.IsValid)
-            {
-                _unitOfWork.Pizza.Update(editPizza); //only thing needed here is to update the object and save changes
-                _unitOfWork.Save();
-                TempData["passed"] = "Pizza Edited!";
-            }
-
-            return RedirectToAction("Index", "Pizza");
-        }
-
+       
 
         public IActionResult Delete(int? id) //Can take in id of Style that's nullable
         {
@@ -138,6 +117,37 @@ namespace PizzaProject.Areas.Admin.Controllers
             TempData["passed"] = "Pizza Deleted!";
             return RedirectToAction("Index", "Pizza");
         }
+
+        /* public IActionResult Edit(int? id) //Can take in id of Style that's nullable
+        {
+            if (id is null || id == 0) //is null is better ==, and can also say //is not
+            {
+                return NotFound();
+            }
+
+            Pizza? pizzaFromDb = _unitOfWork.Pizza.Get(u => u.Id == id); //find can only look for the primary key
+            //Style? styleFromDb1 = _context.Styles.FirstOrDefault(u => u.Id == id); //firstordeafault using LINQ and can search for other varaibles 
+            //Style? styleFromDb2 = _context.Styles.Where(u => u.Id == id).FirstOrDefault(); //Where is used for calculation 
+            if (pizzaFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(pizzaFromDb);
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit(Pizza editPizza)
+        {
+            if (editPizza is not null && ModelState.IsValid)
+            {
+                _unitOfWork.Pizza.Update(editPizza); //only thing needed here is to update the object and save changes
+                _unitOfWork.Save();
+                TempData["passed"] = "Pizza Edited!";
+            }
+
+            return RedirectToAction("Index", "Pizza");
+        }*/
 
     }
 }

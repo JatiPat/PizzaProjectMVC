@@ -3,11 +3,11 @@
 <div class="container">
     <div class="row pt-4 pb-3">
         <div class="col-6">
-            <h1>Pizza Styles</h1>
+            <h1>Pizzas</h1>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Pizza" asp-action="Create" class="btn btn-primary">
-                <i class="bi bi-patch-plus"></i> Add Another Pizza Style!
+            <a asp-controller="Pizza" asp-action="Upsert" class="btn btn-primary">
+                <i class="bi bi-patch-plus"></i> Add Another Pizza!
             </a>
         </div>
     </div>
@@ -19,7 +19,8 @@
             <th>Name</th>
             <th>Pizza Styles</th>
             <th>Description</th>
-            <th>Veggie</th>
+            <th>Ingredients</th>
+            <th>Vegetarian</th>
             <th>Price</th>
 
         </tr>
@@ -31,11 +32,12 @@
                 <td>@item.Name</td>
                 <td> @item.Name</td>
                 <td> @item.Description</td>
+                <td>@item.Ingredients</td>
                 <td> @item.Veggie</td>
                 <td> @item.Price</td>
                 <td>
                     <div class="w-75 btn-group" role="group">
-                        <a asp-controller="Pizza" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary mx-2">
+                        <a asp-controller="Pizza" asp-action="Upsert" asp-route-id="@item.Id" class="btn btn-primary mx-2">
                             @* Must route item id in order to send to the right place. also ctrl+shift+/ for comments! *@
                             <i class="bi bi-pencil-square"></i> Edit
                         </a>

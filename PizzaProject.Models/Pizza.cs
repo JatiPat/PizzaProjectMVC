@@ -41,7 +41,7 @@ namespace PizzaProject.Models
         [ValidateNever] //Makes it so it doesn't get valided if it's null during ModelState.IsValid
         public string ImageURL { get; set; }
         
-        [DisplayName("Vegetarian?")]
+        [DisplayName("Vegetarian")]
         public string Veggie {  get; set; }  
 
     }
