@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PizzaProject.DataAccess.Data;
+using PizzaProject.DataAccess.Repository;
 using PizzaProject.DataAccess.Repository.IRepository;
 using PizzaProject.Models;
 using PizzaProject.Models.ViewModels;
@@ -12,10 +13,11 @@ namespace PizzaProject.Areas.Admin.Controllers
     {
         //private readonly PizzaDbContext _context; //underscore is added to readonly varabiles and partial views
         private readonly IUnitOfWork _unitOfWork; //switched out DbContext with IPizzaRepository in unitOfWork
-
-        public PizzaController(IUnitOfWork context)
+        private readonly IWebHostEnvironment _webHostEnvironment; //https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.iwebhostenvironment?view=aspnetcore-8.0
+        public PizzaController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
-            _unitOfWork = context;
+            _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -50,11 +52,11 @@ namespace PizzaProject.Areas.Admin.Controllers
             Pizza = new Pizza()
           };  //Need to pass PizzaVM for it to work
             if(id is null || id == 0)
-            {
+            {//create
                 return View(pizzaVM);
             }
             else
-            {
+            {//update
                 pizzaVM.Pizza = _unitOfWork.Pizza.Get(u => u.Id == id);
                 return View(pizzaVM);
             }
@@ -67,7 +69,30 @@ namespace PizzaProject.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.Pizza.Add(newPizzaVM.Pizza); //add new style and save it. Then redirect to index
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                //Using the _webHostEnvironment, you create two strings, one with a random GUID and file exetesion
+                //The other with the _webHostEnvironment.WebRootPath to store it in a specfic static location
+                if (file is not null)
+                { 
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string pizzaPath = Path.Combine(wwwRootPath, @"images\pizza");
+                    //Using FileStream, you copy the file to the desired location https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream?view=net-8.0
+                    using (var fileStream = new FileStream(Path.Combine(pizzaPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream); 
+                    }
+
+                    newPizzaVM.Pizza.ImageURL = @"\images\pizza\" + fileName;
+                }
+                if (newPizzaVM.Pizza.Id is 0) {
+                    _unitOfWork.Pizza.Add(newPizzaVM.Pizza); //add new style and save it. Then redirect to index
+                }
+                else
+                {
+                    _unitOfWork.Pizza.Update(newPizzaVM.Pizza); //for edititng (needed or you'll get an SQL primary id error)
+                }
+                
+              
                 _unitOfWork.Save();
                 TempData["passed"] = "Pizza Created!";
                 return RedirectToAction("Index", "Pizza");

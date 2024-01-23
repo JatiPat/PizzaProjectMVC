@@ -4,79 +4,89 @@
 <hr />
 <div class="row">
     <form asp-action="Upsert" enctype="multipart/form-data">
-        <input asp-for="Pizza.Id" hidden /> @* hidden property if it's getting updated *@
-        <div asp-validation-summary="All" class="text-danger"></div> @*Summary can be All, ModelOnly, or None*@
-        <div class="form-group pb-2">
-            <label asp-for="Pizza.Name" class="control-label"></label> @* tag helpers like asp-for tell EFcore what input is what what variable *@
-            @* Pizza.Name is the same as saying @Model.Pizza.Name *@
-            <input asp-for="Pizza.Name" class="form-control" />
-            <span asp-validation-for="Pizza.Name" class="text-danger"></span>
-        </div>
-
-        <div class="form-group pb-3">
-            <label asp-for="Pizza.Description" class="control-label"></label>
-            <input type="text" asp-for="Pizza.Description" class="form-control" />
-            @*   Added type=text to get rid of up/down arrows *@
-            <span asp-validation-for="Pizza.Description" class="text-danger"></span>
-        </div>
-
-        <div class="form-group pb-3">
-            <label asp-for="Pizza.Ingredients" class="control-label"></label>
-            <input type="text" asp-for="Pizza.Ingredients" class="form-control" />
-            @*   Added type=text to get rid of up/down arrows *@
-            <span asp-validation-for="Pizza.Ingredients" class="text-danger"></span>
-        </div>
-
-        <div class="form-group pb-3">
-            <label asp-for="Pizza.Veggie" class="control-label"></label>
-            <select asp-for="Pizza.Veggie" class="form-select">
-                <option disabled selected>--Select Option--</option>
-                <option>Yes</option>
-                <option>No</option>
-            </select>
-            @*   Added type=text to get rid of up/down arrows *@
-            <span asp-validation-for="Pizza.Veggie" class="text-danger"></span>
-        </div>
-
-        <div class="form-group pb-3">
-            <label asp-for="Pizza.Price" class="control-label"></label>
-            <input type="text" asp-for="Pizza.Price" class="form-control" />
-            @*   Added type=text to get rid of up/down arrows *@
-            <span asp-validation-for="Pizza.Price" class="text-danger"></span>
-        </div>
-
-        <div class="form-group pb-3">
-            <label asp-for="Pizza.PizzaStyleId" class="control-label"></label>
-            <select asp-for="@Model.Pizza.PizzaStyleId" asp-items="@Model.PizzaStyleList" class="form-select">
-            @*   Could use if you have ViewBag set up  asp-items="ViewBag.PizzaStyleList *@
-                <option disabled selected>--Select Pizza Style--</option>
-            </select>
-            @*   Added type=text to get rid of up/down arrows *@
-            <span asp-validation-for="Pizza.PizzaStyleId" class="text-danger"></span>
-        </div>
-
-        <div class="form-group pb-3">
-            <label asp-for="Pizza.ImageURL" class="control-label"></label>
-            <input type="file" asp-for="Pizza.ImageURL" class="form-control" />
-            @*   Added type=text to get rid of up/down arrows *@
-     
-        </div>
+        <input asp-for="Pizza.Id" hidden />  @* hidden property if it's getting updated*@
         <div class="row">
-            <div class="form-group pb-2 col-6">
-                @if(Model.Pizza.Id != 0)
-                {
-                    <input type="submit" value="Edit" class="btn btn-primary form-control" />
-                }
-                else
-                {
-                    <input type="submit" value="Create" class="btn btn-primary form-control" />
-                }
-                
+            <div class="col-10">
+                <div asp-validation-summary="All" class="text-danger"></div> @*Summary can be All, ModelOnly, or None*@
+                <div class="form-group pb-2">
+                    <label asp-for="Pizza.Name" class="control-label"></label> @* tag helpers like asp-for tell EFcore what input is what what variable *@
+                    @* Pizza.Name is the same as saying @Model.Pizza.Name *@
+                    <input asp-for="Pizza.Name" class="form-control" />
+                    <span asp-validation-for="Pizza.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group pb-3">
+                    <label asp-for="Pizza.Description" class="control-label"></label>
+                    <textarea asp-for="Pizza.Description" class="form-control"></textarea>
+                    @*   Added type=text to get rid of up/down arrows *@
+                    <span asp-validation-for="Pizza.Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pb-3">
+                    <label asp-for="Pizza.Ingredients" class="control-label"></label>
+                    <input type="text" asp-for="Pizza.Ingredients" class="form-control" />
+                    @*   Added type=text to get rid of up/down arrows *@
+                    <span asp-validation-for="Pizza.Ingredients" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pb-3">
+                    <label asp-for="Pizza.Veggie" class="control-label"></label>
+                    <select asp-for="Pizza.Veggie" class="form-select">
+                        <option disabled selected>--Select Option--</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                    </select>
+                    @*   Added type=text to get rid of up/down arrows *@
+                    <span asp-validation-for="Pizza.Veggie" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pb-3">
+                    <label asp-for="Pizza.Price" class="control-label"></label>
+                    <input type="text" asp-for="Pizza.Price" class="form-control" />
+                    @*   Added type=text to get rid of up/down arrows *@
+                    <span asp-validation-for="Pizza.Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pb-3">
+                    <label asp-for="Pizza.PizzaStyleId" class="control-label"></label>
+                    <select asp-for="@Model.Pizza.PizzaStyleId" asp-items="@Model.PizzaStyleList" class="form-select">
+                        @*   Could use if you have ViewBag set up  asp-items="ViewBag.PizzaStyleList *@
+                        <option disabled selected>--Select Pizza Style--</option>
+                    </select>
+                    @*   Added type=text to get rid of up/down arrows *@
+                    <span asp-validation-for="Pizza.PizzaStyleId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group pb-3">
+                    <label asp-for="Pizza.ImageURL" class="control-label"></label>
+                    <input type="file" name="file" asp-for="Pizza.ImageURL" class="form-control" />
+                    @*   Added type=text to get rid of up/down arrows *@
+
+                </div>
+                <div class="row">
+                    <div class="form-group pb-2 col-6">
+                        @if (Model.Pizza.Id != 0)
+                        {
+                            <input type="submit" value="Edit" class="btn btn-primary form-control" />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Create" class="btn btn-primary form-control" />
+                        }
+
+                    </div>
+                    <div class="col-6">
+                        <a asp-controller="Pizza" asp-action="Index" class="btn btn-primary form-control">Back to Pizza Style List</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-6">
-                <a asp-controller="Pizza" asp-action="Index" class="btn btn-primary form-control">Back to Pizza Style List</a>
+            <div class="col-2">
+                <img src="@Model.Pizza.ImageURL" width="100%" />
             </div>
         </div>
+
+       
+
+      
     </form>
 </div>
 
@@ -84,6 +94,13 @@
 @section Scripts {
     @*Client side validation from jquery*@
     @{
+        <script>
+      tinymce.init({
+        selector: 'textarea',
+        plugins: 'mentions anchor autolink charmap codesample emoticons lists wordcount advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+    </script>
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
